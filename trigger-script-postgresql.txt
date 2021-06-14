@@ -1,0 +1,56 @@
+drop trigger delete_trigger on domain
+drop trigger insert_trigger on domain
+drop trigger update_trigger on domain
+
+create trigger insert_trigger after insert on domain FOR EACH row
+execute procedure insert_function();
+ 
+CREATE OR REPLACE FUNCTION insert_function()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+		 INSERT INTO temp(id_column_name,"id_column_value", query_type, last_modify, table_name)
+		 VALUES('id',new.id, 'INSERT', now(), 'domain');
+
+	RETURN NEW;
+END;
+$$
+
+
+
+create trigger update_trigger after update on domain FOR EACH row
+execute procedure update_function();
+ 
+CREATE OR REPLACE FUNCTION update_function()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+		 INSERT INTO temp(id_column_name,"id_column_value", query_type, last_modify, table_name)
+		 VALUES('id',new.id, 'UPDATE', now(), 'domain');
+
+	RETURN NEW;
+END;
+$$
+
+
+
+
+create trigger delete_trigger after delete on domain FOR EACH row
+execute procedure delete_function();
+ 
+CREATE OR REPLACE FUNCTION delete_function()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+		 INSERT INTO temp(id_column_name,"id_column_value", query_type, last_modify, table_name)
+		 VALUES('id',old.id, 'DELETE', now(), 'domain');
+
+	RETURN NEW;
+END;
+$$

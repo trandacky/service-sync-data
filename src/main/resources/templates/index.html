@@ -1,0 +1,91 @@
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<html xmlns:th="http://www.thymeleaf.org">
+<title>Dynamic Connect</title>
+<meta charset="utf-8">
+<body>
+	<form method="post" action="/" class="card">
+		<div class="row">
+			<div class="row col-md-6">
+
+				<div class="col-md-12">
+					Driver original: <input name="driverStart" id="driverStart"
+						class="form-control">
+				</div>
+
+				<div class="col-md-12">
+					URL original: <input name="urlStart" id="urlStart"
+						class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					Username original: <input name="usernameStart" id="usernameStart"
+						class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					Password original: <input name="passwordStart" id="passwordStart"
+						class="form-control">
+				</div>
+			</div>
+			
+			<div class="row col-md-6">
+
+				<div class="col-md-12">
+					Driver destination: <input name="driverEnd" id="driverEnd"
+						class="form-control">
+				</div>
+				<div class="col-md-12">
+					URL destination: <input name="urlEnd" id="urlEnd"
+						class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					Username destination: <input name="usernameEnd" id="usernameEnd"
+						class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					Password destination: <input name="passwordEnd" id="passwordEnd"
+						class="form-control">
+				</div>
+			</div>
+			<div class="col-md-12">
+				Table temporary: <input name="tableNameTemp" id="tableNameTemp"
+					class="form-control">
+			</div>
+			<div class="col-md-2">
+				<button type="submit" class="btn btn-success">Save</button>
+			</div>
+		</div>
+	</form>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>STT</th>
+				<th>Database original</th>
+				<th>Database destination</th>
+				<th>Temporary table</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr th:each="connect,iterStat : ${connects}">
+				<td style="width: 10%" class="text-center"
+					th:text="${iterStat.count}"></td>
+				<td
+					th:text="'Driver: ' + ${connect.driverStart} +' | URL: '+ ${connect.urlStart} +' | Username: '+ ${connect.usernameStart} +' | Password: '+ ${connect.passwordStart}"></td>
+				<td
+					th:text="'Driver: ' + ${connect.driverEnd} +' | URL: '+ ${connect.urlEnd} +' | Username: '+ ${connect.usernameEnd} +' | Password: '+ ${connect.passwordEnd}"></td>
+				<td th:text="${connect.tableNameTemp}"></td>
+				<td><a th:href="@{delete/{id}/(id=${connect.id})}">
+						<button type="submit" class="btn btn-danger">Delete</button>
+				</a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
